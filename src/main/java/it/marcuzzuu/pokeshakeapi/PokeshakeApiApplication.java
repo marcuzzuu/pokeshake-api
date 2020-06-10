@@ -8,10 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties
 public class PokeshakeApiApplication
 {
-
 	public static void main(String[] args)
 	{
 		SpringApplication.run(PokeshakeApiApplication.class, args);
 	}
-
 }

@@ -36,7 +36,8 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 		{
 			final ResponseEntity<TranslationResponse> response = this.restTemplate.exchange(buildURI(dialect), HttpMethod.POST, new HttpEntity<>(new TranslationRequest(text), DEFAULT_HEADERS), TranslationResponse.class);
 			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
-		}catch (HttpClientErrorException ex)
+		}
+		catch (HttpClientErrorException ex)
 		{
 			log.warn("Got problems translating in '{}': {}", !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource(), ex.getResponseBodyAsString());
 		}

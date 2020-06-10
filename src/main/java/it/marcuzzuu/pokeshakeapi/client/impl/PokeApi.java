@@ -35,7 +35,8 @@ public class PokeApi extends ApiClient implements IPokeApi
 		{
 			final ResponseEntity<PokemonSpecies> response = this.restTemplate.exchange(buildURI(name), HttpMethod.GET, new HttpEntity<>(DEFAULT_HEADERS), PokemonSpecies.class);
 			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
-		}catch (HttpClientErrorException ex)
+		}
+		catch (HttpClientErrorException ex)
 		{
 			log.warn("Got problems finding pokemon '{}': {}", name, ex.getResponseBodyAsString());
 		}
