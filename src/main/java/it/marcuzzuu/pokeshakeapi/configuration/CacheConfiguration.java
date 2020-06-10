@@ -12,9 +12,8 @@ import java.util.concurrent.TimeUnit;
 @Configuration("cacheConfiguration")
 public class CacheConfiguration
 {
-	@Bean("operationsCache")
-	@Scope("prototype")
-	public Cache<String, Integer> operationsCache(@Value("${cache.pokemons.capacity:10000}") final Integer maxCapacity, @Value("${cache.pokemons.expire-after-seconds:120}") final Integer expireAfterSeconds)
+	@Bean("pokemonsCache")
+	public Cache<String, Integer> pokemonsCache(@Value("${cache.pokemons.capacity:10000}") final Integer maxCapacity, @Value("${cache.pokemons.expire-after-seconds:120}") final Integer expireAfterSeconds)
 	{
 		return Caffeine.newBuilder().maximumSize(maxCapacity).expireAfterWrite(expireAfterSeconds, TimeUnit.SECONDS).build();
 	}
