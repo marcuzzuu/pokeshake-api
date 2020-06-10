@@ -9,6 +9,7 @@ import it.marcuzzuu.pokeshakeapi.model.pokeapi.FlavorTextEntry;
 import it.marcuzzuu.pokeshakeapi.model.pokeapi.PokemonSpecies;
 import it.marcuzzuu.pokeshakeapi.service.IPokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,7 +24,7 @@ public class PokemonService implements IPokemonService
 	private final Cache<String, String> cache;
 
 	@Autowired
-	public PokemonService(final IPokeApi pokeApi, final ITranslatorApi translatorApi, final Cache<String, String> cache)
+	public PokemonService(final IPokeApi pokeApi, final ITranslatorApi translatorApi, @Qualifier("pokemonsCache") final Cache<String, String> cache)
 	{
 		this.pokeApi = pokeApi;
 		this.translatorApi = translatorApi;
