@@ -3,8 +3,7 @@ package it.marcuzzuu.pokeshakeapi.model.translatorapi;
 import lombok.Data;
 
 @Data
-public class Translation
+public class TranslationRequest
 {
-	private SuccessDescription success;
-	private Contents contents;
+	private final String text;
 }

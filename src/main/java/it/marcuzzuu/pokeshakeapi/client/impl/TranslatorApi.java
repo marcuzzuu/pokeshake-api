@@ -3,8 +3,12 @@ package it.marcuzzuu.pokeshakeapi.client.impl;
 import it.marcuzzuu.pokeshakeapi.client.ApiClient;
 import it.marcuzzuu.pokeshakeapi.client.ITranslatorApi;
 import it.marcuzzuu.pokeshakeapi.client.configuration.TranslatorApiConfig;
-import it.marcuzzuu.pokeshakeapi.model.translatorapi.Translation;
+import it.marcuzzuu.pokeshakeapi.model.translatorapi.TranslationRequest;
+import it.marcuzzuu.pokeshakeapi.model.translatorapi.TranslationResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -12,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class TranslatorApi extends ApiClient implements ITranslatorApi
 {
@@ -24,10 +29,17 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 	}
 
 	@Override
-	public Optional<Translation> getTranslation(final String text, final String dialect)
+	public Optional<TranslationResponse> getTranslation(final String text, final String dialect)
 	{
-		final ResponseEntity<Translation> response = this.restTemplate.getForEntity(buildURI(dialect), Translation.class);
-		return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
+		try
+		{
+			final ResponseEntity<TranslationResponse> response = this.restTemplate.exchange(buildURI(dialect), HttpMethod.POST, new HttpEntity<>(new TranslationRequest(text), DEFAULT_HEADERS), TranslationResponse.class);
+			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
+		}catch (Exception ex)
+		{
+			log.warn("Something went wrong translating '{}' in '{}': {}", text, !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource(), ex);
+		}
+		return Optional.empty();
 	}
 
 	private String buildURI(final String dialect)

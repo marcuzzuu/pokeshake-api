@@ -4,13 +4,17 @@ import it.marcuzzuu.pokeshakeapi.client.ApiClient;
 import it.marcuzzuu.pokeshakeapi.client.IPokeApi;
 import it.marcuzzuu.pokeshakeapi.client.configuration.PokeApiConfiguration;
 import it.marcuzzuu.pokeshakeapi.model.pokeapi.PokemonSpecies;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class PokeApi extends ApiClient implements IPokeApi
 {
@@ -26,8 +30,15 @@ public class PokeApi extends ApiClient implements IPokeApi
 	@Override
 	public Optional<PokemonSpecies> getSpecies(final String name)
 	{
-		final ResponseEntity<PokemonSpecies> response = this.restTemplate.getForEntity(buildURI(name), PokemonSpecies.class);
-		return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
+		try
+		{
+			final ResponseEntity<PokemonSpecies> response = this.restTemplate.exchange(buildURI(name), HttpMethod.GET, new HttpEntity<>(DEFAULT_HEADERS), PokemonSpecies.class);
+			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
+		}catch (Exception ex)
+		{
+			log.warn("Something went wrong finding pokemon '{}': {}", name, ex);
+		}
+		return Optional.empty();
 	}
 
 	private String buildURI(final String pokemonName)
