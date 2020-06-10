@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Optional;
 
@@ -34,9 +35,9 @@ public class PokeApi extends ApiClient implements IPokeApi
 		{
 			final ResponseEntity<PokemonSpecies> response = this.restTemplate.exchange(buildURI(name), HttpMethod.GET, new HttpEntity<>(DEFAULT_HEADERS), PokemonSpecies.class);
 			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
-		}catch (Exception ex)
+		}catch (HttpClientErrorException ex)
 		{
-			log.warn("Something went wrong finding pokemon '{}': {}", name, ex);
+			log.warn("Got problems finding pokemon '{}': {}", name, ex.getResponseBodyAsString());
 		}
 		return Optional.empty();
 	}

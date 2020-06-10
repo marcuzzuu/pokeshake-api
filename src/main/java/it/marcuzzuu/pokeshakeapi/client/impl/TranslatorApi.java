@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Optional;
 
@@ -35,9 +36,9 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 		{
 			final ResponseEntity<TranslationResponse> response = this.restTemplate.exchange(buildURI(dialect), HttpMethod.POST, new HttpEntity<>(new TranslationRequest(text), DEFAULT_HEADERS), TranslationResponse.class);
 			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
-		}catch (Exception ex)
+		}catch (HttpClientErrorException ex)
 		{
-			log.warn("Something went wrong translating '{}' in '{}': {}", text, !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource(), ex);
+			log.warn("Got problems translating in '{}': {}", !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource(), ex.getResponseBodyAsString());
 		}
 		return Optional.empty();
 	}
