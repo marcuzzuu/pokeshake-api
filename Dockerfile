@@ -6,4 +6,4 @@ ADD ${JAR_ARCHIVE} application.jar
 
 ENTRYPOINT "java"
 CMD["-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap","-jar","/application.jar"]
-EXPOSE 5000
+EXPOSE 8080
