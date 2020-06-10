@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "poke-api")
 public class PokeApiConfiguration
 {
-	private String baseEndPoint;
+	private String endpoint;
 	private String speciesResource;
 }
