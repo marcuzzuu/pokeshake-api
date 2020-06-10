@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class TranslatorApi extends ApiClient implements ITranslatorApi
 {
@@ -20,7 +22,7 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 	}
 
 	@Override
-	public Translation getTranslation(final String text, final String dialect)
+	public Optional<Translation> getTranslation(final String text, final String dialect)
 	{
 		return null;
 	}
