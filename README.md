@@ -2,7 +2,7 @@
 A Pokemon API in a Shakespearean flavour.
 
 # Endpoint
-`GET /pokemon/{name}` => 
+`GET /pokemon/{name}` 
 
 Get pokemon description in a Shakespearean dialect.
 
@@ -25,14 +25,14 @@ Application should now start listening on `localhost:5000`
 
 Browse to the root folder of the project `./pokeshake-api` and then run the following command:
 
-`mvn clean test`
+`mvnw clean test`
 
 # Underlying APIs
 
 This project uses the external APIs:
 
-* https://pokeapi.co/docs/v2.html/ (100 requests per minute) through a wrapper client: https://github.com/dlfigueira/spring-pokeapi
-* https://funtranslations.com/api/shakespeare (5 requests per hour - 60 per day)
+* https://pokeapi.co/docs/v2.html/ (100 requests per minute).
+* https://funtranslations.com/api/shakespeare (5 requests per hour - 60 per day).
 
 
 
