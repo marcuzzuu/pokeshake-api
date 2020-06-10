@@ -55,7 +55,7 @@ public class PokemonService implements IPokemonService
 		{
 			if (textEntries.get(i).getLanguage().getName().equals(PokeApi.DEFAULT_LANGUAGE))
 			{
-				return textEntries.get(i).getFlavorText();
+				return textEntries.get(i).getFlavorText().replaceAll("\n", " ");
 			}
 		}
 		return null;
