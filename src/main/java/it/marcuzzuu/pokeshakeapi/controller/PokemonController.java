@@ -31,11 +31,11 @@ public class PokemonController
 		if (!StringUtils.isEmpty(name))
 		{
 			final Optional<PokemonDescription> description = this.pokemonService.retrieveDescription(name, null);
-			if (description.isPresent())
+			if (description.isPresent() && !StringUtils.isEmpty(description.get().getDescription()))
 			{
 				return ResponseEntity.ok(description.get());
 			}
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND.value(), String.format("No description found for pokemon: %s", name)));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND.value(), String.format("No description found for '%s'", name)));
 		}
 		return ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "A name must be provided"));
 	}
