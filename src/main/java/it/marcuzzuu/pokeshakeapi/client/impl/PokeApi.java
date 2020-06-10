@@ -26,7 +26,12 @@ public class PokeApi extends ApiClient implements IPokeApi
 	@Override
 	public Optional<PokemonSpecies> getSpecies(final String name)
 	{
-		final ResponseEntity<PokemonSpecies> response = this.restTemplate.getForEntity(this.configuration.getBaseEndPoint().concat(this.configuration.getSpeciesResource()), PokemonSpecies.class);
+		final ResponseEntity<PokemonSpecies> response = this.restTemplate.getForEntity(buildURI(name), PokemonSpecies.class);
 		return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
+	}
+
+	private String buildURI(final String pokemonName)
+	{
+		return String.format("%s/%s/%s", this.configuration.getEndpoint(), this.configuration.getSpeciesResource(), pokemonName);
 	}
 }

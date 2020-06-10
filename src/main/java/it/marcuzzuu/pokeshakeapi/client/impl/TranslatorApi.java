@@ -26,8 +26,12 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 	@Override
 	public Optional<Translation> getTranslation(final String text, final String dialect)
 	{
-		final ResponseEntity<Translation> response = this.restTemplate.getForEntity(this.configuration.getBaseEndPoint().concat(!StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource()), Translation.class);
+		final ResponseEntity<Translation> response = this.restTemplate.getForEntity(buildURI(dialect), Translation.class);
 		return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
 	}
 
+	private String buildURI(final String dialect)
+	{
+		return String.format("%s/%s", this.configuration.getEndpoint(), !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource());
+	}
 }
