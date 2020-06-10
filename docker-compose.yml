@@ -1,0 +1,10 @@
+version: '2.2'
+services:
+
+  pokeShakeApi:
+    container_name: pokeshake-api
+    image: marcusscarface/pokeshake-api:0.0.1-SNAPSHOT
+    restart: always
+    mem_limit: 512M
+    ports:
+    - 5000:5000
