@@ -2,10 +2,10 @@ package it.marcuzzuu.pokeshakeapi.client.impl;
 
 import it.marcuzzuu.pokeshakeapi.client.ApiClient;
 import it.marcuzzuu.pokeshakeapi.client.ITranslatorApi;
-import it.marcuzzuu.pokeshakeapi.client.configuration.ApiClientConfiguration;
+import it.marcuzzuu.pokeshakeapi.client.configuration.TranslatorApiConfig;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.Translation;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -13,10 +13,10 @@ import java.util.Optional;
 @Component
 public class TranslatorApi extends ApiClient implements ITranslatorApi
 {
-	private final ApiClientConfiguration configuration;
+	private final TranslatorApiConfig configuration;
 
 	@Autowired
-	public TranslatorApi(@Qualifier("translatorApiConfiguration") final ApiClientConfiguration configuration)
+	public TranslatorApi(final TranslatorApiConfig configuration)
 	{
 		this.configuration = configuration;
 	}
@@ -26,4 +26,5 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 	{
 		return null;
 	}
+
 }

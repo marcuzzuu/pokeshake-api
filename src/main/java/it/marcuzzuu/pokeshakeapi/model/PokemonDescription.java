@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class PokemonDescription
 {
-	private String name;
-	private String description;
+	private final String name;
+	private final String description;
 }
