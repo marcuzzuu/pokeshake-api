@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import it.marcuzzuu.pokeshakeapi.client.IPokeApi;
 import it.marcuzzuu.pokeshakeapi.client.ITranslatorApi;
 import it.marcuzzuu.pokeshakeapi.client.impl.PokeApi;
-import it.marcuzzuu.pokeshakeapi.client.impl.TranslatorApi;
 import it.marcuzzuu.pokeshakeapi.model.PokemonDescription;
 import it.marcuzzuu.pokeshakeapi.model.pokeapi.FlavorTextEntry;
 import it.marcuzzuu.pokeshakeapi.model.pokeapi.PokemonSpecies;
@@ -21,7 +20,7 @@ public class PokemonService implements IPokemonService
 {
 	private final IPokeApi pokeApi;
 	private final ITranslatorApi translatorApi;
-	private final Cache<String,String> cache;
+	private final Cache<String, String> cache;
 
 	@Autowired
 	public PokemonService(final IPokeApi pokeApi, final ITranslatorApi translatorApi, final Cache<String, String> cache)
@@ -34,12 +33,13 @@ public class PokemonService implements IPokemonService
 	@Override
 	public Optional<PokemonDescription> retrieveDescription(final String name, final String translateTo)
 	{
-		if(!StringUtils.isEmpty(name))
+		if (!StringUtils.isEmpty(name))
 		{
 			String pokemonDescription = this.cache.getIfPresent(name);
-			if(pokemonDescription==null)
+			if (pokemonDescription == null)
 			{
-				this.pokeApi.getSpecies(name).map(this::extractMostRecentDescription).map(description->this.translatorApi.getTranslation(description, translateTo).orElse(null)).ifPresent(translation -> this.cache.put(name, translation.getContents().getTranslated()));
+				this.pokeApi.getSpecies(name).map(this::extractMostRecentDescription).map(description -> this.translatorApi.getTranslation(description, translateTo).orElse(null))
+						.ifPresent(translation -> this.cache.put(name, translation.getContents().getTranslated()));
 			}
 			return Optional.of(new PokemonDescription(name, this.cache.getIfPresent(name)));
 		}
@@ -51,9 +51,9 @@ public class PokemonService implements IPokemonService
 	private String extractMostRecentDescription(final PokemonSpecies pokemonSpecies)
 	{
 		final List<FlavorTextEntry> textEntries = pokemonSpecies.getFlavorTextEntries();
-		for(int i=textEntries.size()-1; i>=0; i--)
+		for (int i = textEntries.size() - 1; i >= 0; i--)
 		{
-			if(textEntries.get(i).getLanguage().getName().equals(PokeApi.DEFAULT_LANGUAGE))
+			if (textEntries.get(i).getLanguage().getName().equals(PokeApi.DEFAULT_LANGUAGE))
 			{
 				return textEntries.get(i).getFlavorText();
 			}

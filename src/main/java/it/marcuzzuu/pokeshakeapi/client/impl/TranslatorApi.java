@@ -4,7 +4,6 @@ import it.marcuzzuu.pokeshakeapi.client.ApiClient;
 import it.marcuzzuu.pokeshakeapi.client.ITranslatorApi;
 import it.marcuzzuu.pokeshakeapi.client.configuration.TranslatorApiConfig;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.Translation;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

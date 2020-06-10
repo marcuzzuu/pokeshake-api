@@ -31,8 +31,8 @@ public class PokemonController
 	{
 		if (!StringUtils.isEmpty(name))
 		{
-			final Optional<PokemonDescription> description = this.pokemonService.retrieveDescription(name,null);
-			if(description.isPresent())
+			final Optional<PokemonDescription> description = this.pokemonService.retrieveDescription(name, null);
+			if (description.isPresent())
 			{
 				return ResponseEntity.ok(description.get());
 			}
