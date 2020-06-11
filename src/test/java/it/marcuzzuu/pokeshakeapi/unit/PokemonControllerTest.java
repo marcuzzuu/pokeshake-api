@@ -2,6 +2,7 @@ package it.marcuzzuu.pokeshakeapi.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.marcuzzuu.pokeshakeapi.controller.PokemonController;
+import it.marcuzzuu.pokeshakeapi.model.PokemonDescription;
 import it.marcuzzuu.pokeshakeapi.service.impl.PokemonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+import java.util.Optional;
+
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(PokemonController.class)
 class PokemonControllerTest
 {
@@ -22,9 +29,15 @@ class PokemonControllerTest
 	private ObjectMapper mapper;
 
 	@Test
-	void getDescriptionWithValidNameShouldReturnShakespeareanDescriptionAnd200()
+	void getDescriptionWithValidNameShouldReturnShakespeareanDescriptionAnd200() throws Exception
 	{
-
+		final String name = "charizard";
+		final String description = "Charizard flies 'round the sky in search of powerful opponents. " +
+				"'t breathes fire of such most wondrous heat yond 't melts aught. " +
+				"However, 't nev'r turn its fiery breath on any opponent weaker than itself.";
+		final PokemonDescription fullPokemonDescription = new PokemonDescription(name, description);
+		given(this.pokemonService.retrieveDescription("charizard", null)).willReturn(Optional.of(fullPokemonDescription));
+		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isOk()).andExpect(content().json(this.mapper.writeValueAsString(fullPokemonDescription)));
 	}
 
 	@Test
