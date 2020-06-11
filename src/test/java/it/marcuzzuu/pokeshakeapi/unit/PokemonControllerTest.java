@@ -7,16 +7,13 @@ import it.marcuzzuu.pokeshakeapi.service.impl.PokemonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Optional;
 
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PokemonController.class)
 class PokemonControllerTest
@@ -36,19 +33,22 @@ class PokemonControllerTest
 				"'t breathes fire of such most wondrous heat yond 't melts aught. " +
 				"However, 't nev'r turn its fiery breath on any opponent weaker than itself.";
 		final PokemonDescription fullPokemonDescription = new PokemonDescription(name, description);
-		given(this.pokemonService.retrieveDescription("charizard", null)).willReturn(Optional.of(fullPokemonDescription));
+		given(this.pokemonService.retrieveDescription(name, null)).willReturn(Optional.of(fullPokemonDescription));
 		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isOk()).andExpect(content().json(this.mapper.writeValueAsString(fullPokemonDescription)));
 	}
 
 	@Test
-	void getDescriptionWithInValidNameShouldReturnGivenNameAnd404()
+	void getDescriptionWithInValidNameShouldReturnErrorResponseAnd404() throws Exception
 	{
-
+		final String name = "charizardos";
+		given(this.pokemonService.retrieveDescription(name, null)).willReturn(Optional.of(new PokemonDescription(name, null)));
+		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound()).andExpect(jsonPath("error").isNotEmpty()).andExpect(jsonPath("statusCode").value(404));
 	}
 
 	@Test
-	void getDescriptionWithNoNameShouldReturn404()
+	void getDescriptionWithNoNameShouldReturn404() throws Exception
 	{
-
+		final String name = "";
+		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound()).andExpect(jsonPath("statusCode").doesNotExist());
 	}
 }
