@@ -2,16 +2,20 @@
 A Pokemon API in a Shakespearean flavour.
 
 # Endpoint
-`GET /pokemon/{name}` 
 
 Get pokemon description in a Shakespearean dialect.
+
+`GET /pokemon/{name}` 
+
+# Documentation
+
+API documentation via [Swagger](localhost:5000/swagger-ui.html) page.
 
 # Prerequisites
 
 Docker must be installed on your machine. 
-You can find more instructions on how to do it at:
 
-`https://www.docker.com/get-started`
+You can find more instructions on how to do it [here](https://www.docker.com/get-started).
 
 # Run with Docker
 
@@ -31,8 +35,8 @@ Browse to the root folder of the project `./pokeshake-api` and then run the foll
 
 This project uses the external APIs:
 
-* https://pokeapi.co/docs/v2.html/ (100 requests per minute).
-* https://funtranslations.com/api/shakespeare (5 requests per hour - 60 per day).
+* [Poke-API](https://pokeapi.co/docs/v2.html/) (100 requests per minute).
+* [FunTranslations-API](https://funtranslations.com/api/shakespeare) (5 requests per hour - 60 per day).
 
 
 
