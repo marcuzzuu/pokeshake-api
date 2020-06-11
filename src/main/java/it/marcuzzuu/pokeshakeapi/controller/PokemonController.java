@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.marcuzzuu.pokeshakeapi.model.ErrorResponse;
 import it.marcuzzuu.pokeshakeapi.model.PokemonDescription;
 import it.marcuzzuu.pokeshakeapi.service.impl.PokemonService;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/pokemon")
+@Tag(name="Pokemon", description = "Pokemon resource endpoint")
 public class PokemonController
 {
 	private PokemonService pokemonService;
@@ -68,6 +70,6 @@ public class PokemonController
 	public ResponseEntity<ErrorResponse> handleGenericError(final Exception ex)
 	{
 		log.error("Error occurred", ex);
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Something went wrong with your request"));
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), String.format("Something went wrong with your request: %s", ex.getMessage())));
 	}
 }
