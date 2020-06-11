@@ -40,6 +40,10 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 		catch (HttpClientErrorException ex)
 		{
 			log.warn("Got problems translating in '{}': {}", !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource(), ex.getResponseBodyAsString());
+			if(ex.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS))
+			{
+				throw ex;
+			}
 		}
 		return Optional.empty();
 	}

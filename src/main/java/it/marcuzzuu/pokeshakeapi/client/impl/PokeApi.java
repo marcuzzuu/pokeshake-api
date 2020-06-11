@@ -39,6 +39,10 @@ public class PokeApi extends ApiClient implements IPokeApi
 		catch (HttpClientErrorException ex)
 		{
 			log.warn("Got problems finding pokemon '{}': {}", name, ex.getResponseBodyAsString());
+			if(ex.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS))
+			{
+				throw ex;
+			}
 		}
 		return Optional.empty();
 	}
