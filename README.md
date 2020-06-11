@@ -11,6 +11,8 @@ Get pokemon description in a Shakespearean dialect.
 
 API documentation via [Swagger](localhost:5000/swagger-ui.html) page.
 
+**Application must be running in order to access documentation page.**
+
 # Prerequisites
 
 Docker must be installed on your machine. 
