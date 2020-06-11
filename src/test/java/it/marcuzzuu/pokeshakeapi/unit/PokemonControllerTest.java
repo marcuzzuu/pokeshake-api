@@ -40,15 +40,15 @@ class PokemonControllerTest
 	@Test
 	void getDescriptionWithInValidNameShouldReturnErrorResponseAnd404() throws Exception
 	{
-		final String name = "charizardos";
+		final String name = "!charizard!";
 		given(this.pokemonService.retrieveDescription(name, null)).willReturn(Optional.of(new PokemonDescription(name, null)));
-		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound()).andExpect(jsonPath("error").isNotEmpty()).andExpect(jsonPath("statusCode").value(404));
+		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound()).andExpect(jsonPath("name").value(name)).andExpect(jsonPath("description").isEmpty());
 	}
 
 	@Test
 	void getDescriptionWithNoNameShouldReturn404() throws Exception
 	{
 		final String name = "";
-		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound()).andExpect(jsonPath("statusCode").doesNotExist());
+		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound());
 	}
 }
