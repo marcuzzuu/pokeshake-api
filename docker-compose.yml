@@ -3,7 +3,7 @@ services:
 
   pokeShakeApi:
     container_name: pokeshake-api
-    image: marcusscarface/pokeshake-api:1.0.0-SNAPSHOT
+    image: marcusscarface/pokeshake-api:1.0.0
     restart: always
     mem_limit: 512M
     ports:

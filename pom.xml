@@ -5,7 +5,7 @@
 
     <groupId>it.marcuzzuu</groupId>
     <artifactId>pokeshake-api</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>pokeshake-api</name>
     <description>Simple API to get a Pokemon description in a Shakesperean dialect</description>
 
