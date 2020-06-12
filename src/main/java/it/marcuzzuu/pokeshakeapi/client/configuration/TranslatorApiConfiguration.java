@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "translator-api")
-public class TranslatorApiConfig
+public class TranslatorApiConfiguration
 {
 	private String endpoint;
 	private String defaultDialectResource;

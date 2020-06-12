@@ -2,7 +2,7 @@ package it.marcuzzuu.pokeshakeapi.client.impl;
 
 import it.marcuzzuu.pokeshakeapi.client.ApiClient;
 import it.marcuzzuu.pokeshakeapi.client.ITranslatorApi;
-import it.marcuzzuu.pokeshakeapi.client.configuration.TranslatorApiConfig;
+import it.marcuzzuu.pokeshakeapi.client.configuration.TranslatorApiConfiguration;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.TranslationRequest;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.TranslationResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +22,10 @@ import java.util.Optional;
 @Component
 public class TranslatorApi extends ApiClient implements ITranslatorApi
 {
-	private final TranslatorApiConfig configuration;
+	private final TranslatorApiConfiguration configuration;
 
 	@Autowired
-	public TranslatorApi(final TranslatorApiConfig configuration, final RestTemplate restTemplate)
+	public TranslatorApi(final TranslatorApiConfiguration configuration, final RestTemplate restTemplate)
 	{
 		super(restTemplate);
 		this.configuration = configuration;
@@ -50,7 +50,7 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 		return Optional.empty();
 	}
 
-	private String buildURI(final String dialect)
+	public String buildURI(final String dialect)
 	{
 		return String.format("%s/%s", this.configuration.getEndpoint(), !StringUtils.isEmpty(dialect) ? dialect : this.configuration.getDefaultDialectResource());
 	}

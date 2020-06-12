@@ -35,7 +35,7 @@ public class PokeApi extends ApiClient implements IPokeApi
 	{
 		try
 		{
-			final ResponseEntity<PokemonSpecies> response = this.restTemplate.exchange(buildURI(name), HttpMethod.GET, new HttpEntity<>(DEFAULT_HEADERS), PokemonSpecies.class);
+			final ResponseEntity<PokemonSpecies> response = this.restTemplate.exchange(buildSpeciesURI(name), HttpMethod.GET, new HttpEntity<>(DEFAULT_HEADERS), PokemonSpecies.class);
 			return Optional.ofNullable(response != null && response.getStatusCode().equals(HttpStatus.OK) ? response.getBody() : null);
 		}
 		catch (HttpClientErrorException ex)
@@ -49,7 +49,7 @@ public class PokeApi extends ApiClient implements IPokeApi
 		return Optional.empty();
 	}
 
-	private String buildURI(final String pokemonName)
+	public String buildSpeciesURI(final String pokemonName)
 	{
 		return String.format("%s/%s/%s", this.configuration.getEndpoint(), this.configuration.getSpeciesResource(), pokemonName);
 	}

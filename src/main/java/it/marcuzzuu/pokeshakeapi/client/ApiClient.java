@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 public abstract class ApiClient
 {
-	protected static final MultiValueMap<String, String> DEFAULT_HEADERS;
+	public static final MultiValueMap<String, String> DEFAULT_HEADERS;
 	protected final RestTemplate restTemplate;
 
 	static
