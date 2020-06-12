@@ -41,7 +41,7 @@ public class PokemonController
 		{
 			@ApiResponse(responseCode = "200", description = "Found description", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PokemonDescription.class))}),
 			@ApiResponse(responseCode = "400", description = "Invalid name", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
-			@ApiResponse(responseCode = "404", description = "Description not found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+			@ApiResponse(responseCode = "404", description = "Description not found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PokemonDescription.class))}),
 			@ApiResponse(responseCode = "429", description = "Too many requests", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
 			@ApiResponse(responseCode = "500", description = "Generic server error", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
 		}

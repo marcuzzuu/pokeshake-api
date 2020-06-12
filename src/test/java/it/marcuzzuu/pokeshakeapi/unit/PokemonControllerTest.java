@@ -19,11 +19,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PokemonControllerTest
 {
 	@Autowired
+	private ObjectMapper objectMapper;
+	@Autowired
 	private MockMvc mvc;
 	@MockBean
 	private PokemonService pokemonService;
-	@Autowired
-	private ObjectMapper mapper;
 
 	@Test
 	void getDescriptionWithValidNameShouldReturnShakespeareanDescriptionAnd200() throws Exception
@@ -32,9 +32,10 @@ class PokemonControllerTest
 		final String description = "Charizard flies 'round the sky in search of powerful opponents. " +
 				"'t breathes fire of such most wondrous heat yond 't melts aught. " +
 				"However, 't nev'r turn its fiery breath on any opponent weaker than itself.";
+
 		final PokemonDescription fullPokemonDescription = new PokemonDescription(name, description);
 		given(this.pokemonService.retrieveDescription(name, null)).willReturn(Optional.of(fullPokemonDescription));
-		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isOk()).andExpect(content().json(this.mapper.writeValueAsString(fullPokemonDescription)));
+		this.mvc.perform(get("/pokemon/{name}", name)).andExpect(status().isOk()).andExpect(content().json(this.objectMapper.writeValueAsString(fullPokemonDescription)));
 	}
 
 	@Test
@@ -42,13 +43,13 @@ class PokemonControllerTest
 	{
 		final String name = "!charizard!";
 		given(this.pokemonService.retrieveDescription(name, null)).willReturn(Optional.of(new PokemonDescription(name, null)));
-		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound()).andExpect(jsonPath("name").value(name)).andExpect(jsonPath("description").isEmpty());
+		this.mvc.perform(get("/pokemon/{name}", name)).andExpect(status().isNotFound()).andExpect(jsonPath("name").value(name)).andExpect(jsonPath("description").isEmpty());
 	}
 
 	@Test
 	void getDescriptionWithNoNameShouldReturn404() throws Exception
 	{
 		final String name = "";
-		this.mvc.perform(get("/pokemon/" + name)).andExpect(status().isNotFound());
+		this.mvc.perform(get("/pokemon/{name}", name)).andExpect(status().isNotFound());
 	}
 }
