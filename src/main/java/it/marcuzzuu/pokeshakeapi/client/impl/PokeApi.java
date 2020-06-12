@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -23,8 +24,9 @@ public class PokeApi extends ApiClient implements IPokeApi
 	private final PokeApiConfiguration configuration;
 
 	@Autowired
-	public PokeApi(final PokeApiConfiguration configuration)
+	public PokeApi(final PokeApiConfiguration configuration, final RestTemplate restTemplate)
 	{
+		super(restTemplate);
 		this.configuration = configuration;
 	}
 

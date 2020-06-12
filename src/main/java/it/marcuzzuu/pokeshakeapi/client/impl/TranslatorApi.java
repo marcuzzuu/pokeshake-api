@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -24,8 +25,9 @@ public class TranslatorApi extends ApiClient implements ITranslatorApi
 	private final TranslatorApiConfig configuration;
 
 	@Autowired
-	public TranslatorApi(final TranslatorApiConfig configuration)
+	public TranslatorApi(final TranslatorApiConfig configuration, final RestTemplate restTemplate)
 	{
+		super(restTemplate);
 		this.configuration = configuration;
 	}
 
