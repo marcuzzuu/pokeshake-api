@@ -40,7 +40,6 @@ public class PokemonController
 	(
 		{
 			@ApiResponse(responseCode = "200", description = "Found description", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PokemonDescription.class))}),
-			@ApiResponse(responseCode = "400", description = "Invalid name", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
 			@ApiResponse(responseCode = "404", description = "Description not found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PokemonDescription.class))}),
 			@ApiResponse(responseCode = "429", description = "Too many requests", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
 			@ApiResponse(responseCode = "500", description = "Generic server error", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
@@ -48,16 +47,12 @@ public class PokemonController
 	)
 	public ResponseEntity getDescriptionByName(@Parameter(description = "Name of pokemon to be searched")@PathVariable(name = "name") final String name)
 	{
-		if (!StringUtils.isEmpty(name))
+		final Optional<PokemonDescription> description = this.pokemonService.retrieveDescription(name, null);
+		if (description.isPresent() && !StringUtils.isEmpty(description.get().getDescription()))
 		{
-			final Optional<PokemonDescription> description = this.pokemonService.retrieveDescription(name, null);
-			if (description.isPresent() && !StringUtils.isEmpty(description.get().getDescription()))
-			{
-				return ResponseEntity.ok(description.get());
-			}
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new PokemonDescription(name, ""));
+			return ResponseEntity.ok(description.get());
 		}
-		return ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "A name must be provided"));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new PokemonDescription(name, ""));
 	}
 
 	@ExceptionHandler(HttpClientErrorException.TooManyRequests.class)
