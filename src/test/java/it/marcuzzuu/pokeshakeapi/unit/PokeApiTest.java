@@ -38,7 +38,8 @@ class PokeApiTest
 	void getPokemonSpeciesWithValidNameAndSuccessfulResponseShouldReturnNotEmptyPokemonSpecies()
 	{
 		final String name = "charizard";
-		final PokemonSpecies species = PokemonSpecies.builder().flavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard is a big pokemon!").build())).build();
+		final PokemonSpecies species = new PokemonSpecies();
+		species.setFlavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard is a big pokemon!").build()));
 
 		given(this.restTemplate.exchange(this.pokeApi.buildSpeciesURI(name), HttpMethod.GET, new HttpEntity<>(PokeApi.DEFAULT_HEADERS), PokemonSpecies.class)).willReturn(new ResponseEntity<>(species, HttpStatus.OK));
 		final Optional<PokemonSpecies> returnedValue = this.pokeApi.getSpecies(name);

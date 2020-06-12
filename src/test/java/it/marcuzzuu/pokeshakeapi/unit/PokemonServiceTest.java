@@ -45,7 +45,10 @@ class PokemonServiceTest
 	{
 		final String name = "charizard";
 		final String translatedDescription = "Charizard's big pokemon";
-		given(this.pokeApi.getSpecies(name)).willReturn(Optional.of(PokemonSpecies.builder().flavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard is a big pokemon").language(Language.builder().name(PokeApi.DEFAULT_LANGUAGE).build()).build())).build()));
+		final PokemonSpecies species = new PokemonSpecies();
+		species.setFlavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard is a big pokemon").language(Language.builder().name(PokeApi.DEFAULT_LANGUAGE).build()).build()));
+
+		given(this.pokeApi.getSpecies(name)).willReturn(Optional.of(species));
 		given(this.translatorApi.getTranslation("Charizard is a big pokemon", null)).willReturn(Optional.of(TranslationResponse.builder().contents(Contents.builder().translated(translatedDescription).build()).build()));
 		given(this.cache.getIfPresent(name)).willReturn(translatedDescription);
 
@@ -59,7 +62,10 @@ class PokemonServiceTest
 	void retrieveDescriptionWithNotEmptyNameAndExistingPokemonWithEnglishTranslationAndWithoutFunTranslationShouldReturnGivenNameAndEmptyDescription()
 	{
 		final String name = "charizard";
-		given(this.pokeApi.getSpecies(name)).willReturn(Optional.of(PokemonSpecies.builder().flavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard è un grande pokemon").language(Language.builder().name("it").build()).build())).build()));
+		final PokemonSpecies species = new PokemonSpecies();
+		species.setFlavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard è un grande pokemon").language(Language.builder().name("it").build()).build()));
+
+		given(this.pokeApi.getSpecies(name)).willReturn(Optional.of(species));
 		given(this.translatorApi.getTranslation("Charizard is a big pokemon", null)).willReturn(Optional.empty());
 
 		final Optional<PokemonDescription> description = this.service.retrieveDescription(name, null);
@@ -73,7 +79,10 @@ class PokemonServiceTest
 	void retrieveDescriptionWithNotEmptyNameAndExistingPokemonWithoutEnglishTranslationShouldReturnGivenNameAndEmptyDescription()
 	{
 		final String name = "charizard";
-		given(this.pokeApi.getSpecies(name)).willReturn(Optional.of(PokemonSpecies.builder().flavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard è un grande pokemon").language(Language.builder().name("it").build()).build())).build()));
+		final PokemonSpecies species = new PokemonSpecies();
+		species.setFlavorTextEntries(Collections.singletonList(FlavorTextEntry.builder().flavorText("Charizard è un grande pokemon").language(Language.builder().name("it").build()).build()));
+
+		given(this.pokeApi.getSpecies(name)).willReturn(Optional.of(species));
 		given(this.translatorApi.getTranslation(null, null)).willReturn(Optional.empty());
 
 		final Optional<PokemonDescription> description = this.service.retrieveDescription(name, null);
