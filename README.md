@@ -21,8 +21,8 @@ You can find more instructions on how to do it here:
 * [Docker-desktop](https://www.docker.com/products/docker-desktop)
 * [Docker-compose](https://docs.docker.com/compose/install/)
 
-# Run with Docker
-
+# How to run it
+### Docker
 Browse to the root folder of the project `./pokeshake-api` and then run the following command:
  
 `docker-compose up`
@@ -33,7 +33,7 @@ Application should now start listening on `localhost:5000`
 
 Browse to the root folder of the project `./pokeshake-api` and then run the following command:
 
-`mvnw clean test`
+`./mvnw clean test`
 
 # Underlying APIs
 
