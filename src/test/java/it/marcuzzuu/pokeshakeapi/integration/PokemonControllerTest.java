@@ -52,13 +52,13 @@ class PokemonControllerTest
 		final String name = "";
 		final ResponseEntity<PokemonDescription> response = this.restTemplate.getForEntity("/pokemon/{name}", PokemonDescription.class, name);
 		Assert.isTrue(response.getStatusCode().equals(HttpStatus.NOT_FOUND), "Status code is not 404");
-		Assert.isTrue(response.getBody()!=null && response.getBody().getName()==null && response.getBody().getDescription()==null, "Body is not fully empty");
+		Assert.isTrue(response.getBody() != null && response.getBody().getName() == null && response.getBody().getDescription() == null, "Body is not fully empty");
 	}
 
 	@Test
 	void getDescriptionWithValidNameAndTooManyRequestsOccurredShouldReturn429()
 	{
-		final String [] names = {"charizard", "bulbasaur", "ivysaur", "giratina", "mewtwo", "pikachu"};
+		final String[] names = {"charizard", "bulbasaur", "ivysaur", "giratina", "mewtwo", "pikachu"};
 		for (final String name : names)
 		{
 			final ResponseEntity<?> response = this.restTemplate.getForEntity("/pokemon/{name}", Object.class, name);

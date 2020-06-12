@@ -1,9 +1,7 @@
 package it.marcuzzuu.pokeshakeapi.unit;
 
 import it.marcuzzuu.pokeshakeapi.client.configuration.TranslatorApiConfiguration;
-import it.marcuzzuu.pokeshakeapi.client.impl.PokeApi;
 import it.marcuzzuu.pokeshakeapi.client.impl.TranslatorApi;
-import it.marcuzzuu.pokeshakeapi.model.pokeapi.PokemonSpecies;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.Contents;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.TranslationRequest;
 import it.marcuzzuu.pokeshakeapi.model.translatorapi.TranslationResponse;
